@@ -5,7 +5,7 @@ from django.db import models
 from urllib import urlopen
 
 class LookupCached(models.Model):
-    url = models.URLField(verify_exists=False, unique=True)
+    url = models.URLField(verify_exists=False, max_length=1000)
     _response = models.TextField(blank=True, null=True)
     
     max_age_seconds = models.PositiveIntegerField(default=24*60*60)
