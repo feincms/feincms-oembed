@@ -67,7 +67,7 @@ class FeedContent(models.Model):
     
     def clean(self, *args, **kwargs):
         response = LookupCached.objects.request(self.url)
-        result = feedparser.parse(response.encode('ascii', errors='replace'))
+        result = feedparser.parse(response)
         
         # no feed validation at this time        
         #if response._httpstatus != 200:
