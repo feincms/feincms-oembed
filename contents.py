@@ -1,3 +1,5 @@
+import feedparser
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.loader import render_to_string
@@ -40,10 +42,8 @@ class OembedContent(models.Model):
 
         oohembed_url = 'http://api.embed.ly/1/oembed?url=%s%s' % (urlquote(self.url), params)
 
-        lookup, created = LookupCached.objects.get_or_create(url=oohembed_url)
-
         try:
-            json = simplejson.loads(lookup.response)
+            json = simplejson.loads(LookupCached.objects.request(oohembed_url))
             type = json.get('type')
         except simplejson.JSONDecodeError:
             raise ValidationError('The specified url %s does not respond oembed json' % oohembed_url)
@@ -55,4 +55,28 @@ class OembedContent(models.Model):
 
     def render(self, request, context, **kwargs):
         return self.get_html_from_json()
+
+
+class FeedContent(models.Model):
+    url = models.URLField(_('Feed URL'), help_text=_('Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/'))
+    
+    class Meta:
+        abstract = True
+        verbose_name = _('RSS Feed')
+        verbose_name_plural = _('RSS Feeds')
+    
+    def clean(self, *args, **kwargs):
+        response = LookupCached.objects.request(self.url)
+        result = feedparser.parse(response.encode('ascii', errors='replace'))
+        
+        # no feed validation at this time        
+        #if response._httpstatus != 200:
+        #    raise ValidationError('Feed could not be parsed (HTTP Status: %s): %s' 
+        #                          % (result.get('status', '?'), 
+        #                             result.get('bozo_exception', 'no exception specified')))
+    
+    def render(self, **kwargs):
+        feed = feedparser.parse(LookupCached.objects.request(self.url))
+        return render_to_string('content/external/feed.html', 
+                                {'feed' : feed})
 

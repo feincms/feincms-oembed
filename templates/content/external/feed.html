@@ -1,0 +1,5 @@
+<ul class="ticker">
+    {% for entry in feed.entries %}
+        <ul>{{ entry.summary }}</ul>
+    {% endfor %}
+</ul>
