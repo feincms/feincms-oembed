@@ -1,5 +1,13 @@
 <ul class="ticker">
     {% for entry in feed.entries %}
-        <ul>{{ entry.summary }}</ul>
+        <li>
+            {{ entry.summary }}
+            <span class="copyright">{{ feed.feed.rights }}</span>
+            <span class="date">
+                {% with entry.updated_parsed as t %}
+                    {{ t.tm_mday }}.{{ t.tm_mon }}.{{ t.tm_year }} {{ t.tm_hour }}:{{ t.tm_min }}
+                {% endwith %} 
+            </span>
+        </li>
     {% endfor %}
 </ul>
