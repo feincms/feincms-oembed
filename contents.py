@@ -66,7 +66,7 @@ class FeedContent(models.Model):
         verbose_name_plural = _('RSS Feeds')
     
     def clean(self, *args, **kwargs):
-        response = LookupCached.objects.request(self.url)
+        response = LookupCached.objects.request(self.url, 30*60)
         result = feedparser.parse(response)
         
         # no feed validation at this time        
@@ -76,7 +76,7 @@ class FeedContent(models.Model):
         #                             result.get('bozo_exception', 'no exception specified')))
     
     def render(self, **kwargs):
-        feed = feedparser.parse(LookupCached.objects.request(self.url))
+        feed = feedparser.parse(LookupCached.objects.request(self.url, 30*60))
         return render_to_string('content/external/feed.html', 
                                 {'feed' : feed})
 
