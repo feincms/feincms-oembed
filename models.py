@@ -30,6 +30,7 @@ class LookupCached(models.Model):
     @property
     def response(self):
         delta = datetime.now() - self.modified
+        
         if delta.seconds > self.max_age_seconds:
             self.clean()
             self.save()
