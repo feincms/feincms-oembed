@@ -48,12 +48,13 @@ class OembedContent(models.Model):
         except simplejson.JSONDecodeError:
             raise ValidationError('The specified url %s does not respond oembed json' % oohembed_url)
 
-        return render_to_string(('external/%s.html' % type, 'external/default.html'), {'response' : json})
+        return render_to_string(('external/%s.html' % type, 'external/default.html'), 
+                                {'response' : json, 'content' : self})
 
     def clean(self, *args, **kwargs):
         self.get_html_from_json()
 
-    def render(self, request, context, **kwargs):
+    def render(self, **kwargs):
         return self.get_html_from_json()
 
 
