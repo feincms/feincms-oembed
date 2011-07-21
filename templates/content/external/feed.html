@@ -5,7 +5,7 @@
             <span class="copyright">{{ feed.feed.rights }}</span>
             <span class="date">
                 {% with entry.updated_parsed as t %}
-                    {{ t.tm_mday }}.{{ t.tm_mon }}.{{ t.tm_year }} {{ t.tm_hour }}:{{ t.tm_min }}
+                    {{ t.tm_mday }}.{{ t.tm_mon }}.{{ t.tm_year }} {{ t.tm_hour|stringformat:'02d' }}:{{ t.tm_min|stringformat:'2d' }}
                 {% endwith %} 
             </span>
         </li>

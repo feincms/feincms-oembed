@@ -48,7 +48,14 @@ class LookupCached(models.Model):
             request = urllib2.urlopen(self.url)
         except urllib2.URLError as e:
             raise ValidationError('This URL can not be requested: %s', e)
-        self._response = request.read()
+        
+        raw = request.read()
+        
+        try:
+            decoded = raw.decode('utf-8')
+        except UnicodeDecodeError:
+            decoded = raw.decode('iso8859-1')
+        self._response = decoded
         self._httpstatus = request.getcode()
         
     def __unicode__(self):

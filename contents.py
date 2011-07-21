@@ -76,8 +76,11 @@ class FeedContent(models.Model):
         #                          % (result.get('status', '?'), 
         #                             result.get('bozo_exception', 'no exception specified')))
     
+    @property
+    def feed(self):
+        return feedparser.parse(LookupCached.objects.request(self.url, 30*60))
+    
     def render(self, **kwargs):
-        feed = feedparser.parse(LookupCached.objects.request(self.url, 30*60))
         return render_to_string('content/external/feed.html', 
-                                {'feed' : feed})
+                                {'feed' : self.feed})
 
