@@ -2,7 +2,7 @@ from django import template
 from django.utils import simplejson
 from django.utils.http import urlquote
 
-from feincms_oembed.models import LookupCached
+from feincms_oembed.models import CachedLookup
 
 
 register = template.Library()
@@ -19,7 +19,7 @@ class Oembed(template.Node):
 
             oohembed_url = 'http://api.embed.ly/1/oembed?url=%s&%s' % (urlquote(url), self.params)
 
-            lookup, created = LookupCached.objects.get_or_create(url=oohembed_url)
+            lookup, created = CachedLookup.objects.get_or_create(url=oohembed_url)
 
             try:
                 json = simplejson.loads(lookup.response)

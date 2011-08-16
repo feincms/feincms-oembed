@@ -8,7 +8,7 @@ from django.utils import simplejson
 from django.utils.http import urlquote, urlencode
 from django.utils.translation import ugettext_lazy as _
 
-from feincms_oembed.models import LookupCached
+from feincms_oembed.models import CachedLookup
 
 
 class OembedContent(models.Model):
@@ -43,7 +43,7 @@ class OembedContent(models.Model):
         oohembed_url = 'http://api.embed.ly/1/oembed?url=%s%s' % (urlquote(self.url), params)
 
         try:
-            json = simplejson.loads(LookupCached.objects.request(oohembed_url))
+            json = simplejson.loads(CachedLookup.objects.request(oohembed_url))
             type = json.get('type')
         except simplejson.JSONDecodeError:
             raise ValidationError('The specified url %s does not respond oembed json' % oohembed_url)
@@ -67,7 +67,7 @@ class FeedContent(models.Model):
         verbose_name_plural = _('RSS Feeds')
 
     def clean(self, *args, **kwargs):
-        response = LookupCached.objects.request(self.url, 30*60)
+        response = CachedLookup.objects.request(self.url, 30*60)
         result = feedparser.parse(response)
 
         # no feed validation at this time
@@ -78,7 +78,7 @@ class FeedContent(models.Model):
 
     @property
     def feed(self):
-        return feedparser.parse(LookupCached.objects.request(self.url, 30*60))
+        return feedparser.parse(CachedLookup.objects.request(self.url, 30*60))
 
     def render(self, **kwargs):
         return render_to_string('content/external/feed.html',
