@@ -6,8 +6,11 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
+DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
+
+
 class CachedLookupManager(models.Manager):
-    def request(self, url, max_age=24*60*60):
+    def request(self, url, max_age=DEFAULT_MAX_AGE):
         lookup, created = self.get_or_create(
             hash=hashlib.sha1(url).hexdigest(),
             max_age_seconds=max_age,
@@ -28,7 +31,7 @@ class CachedLookup(models.Model):
     _response = models.TextField(blank=True, null=True)
     _httpstatus = models.PositiveIntegerField(blank=True, null=True)
 
-    max_age_seconds = models.PositiveIntegerField(default=24*60*60)
+    max_age_seconds = models.PositiveIntegerField(default=DEFAULT_MAX_AGE)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
