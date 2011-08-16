@@ -4,6 +4,7 @@ import urllib2
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
@@ -26,15 +27,17 @@ class CachedLookupManager(models.Manager):
 
 
 class CachedLookup(models.Model):
-    hash = models.CharField(max_length=40, unique=True)
-    url = models.URLField(verify_exists=False, max_length=1000)
+    hash = models.CharField(_('hash'), max_length=40, unique=True,
+        help_text=_('SHA-1 hash of the URL.'))
+    url = models.URLField(_('URL'), verify_exists=False, max_length=1000)
     _response = models.TextField(blank=True, null=True)
     _httpstatus = models.PositiveIntegerField(blank=True, null=True)
 
-    max_age_seconds = models.PositiveIntegerField(default=DEFAULT_MAX_AGE)
+    max_age_seconds = models.PositiveIntegerField(_('Max. age in seconds'),
+        default=DEFAULT_MAX_AGE)
 
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
+    modified = models.DateTimeField(_('modified'), auto_now=True)
 
     class Meta:
         verbose_name = _('cached lookup')
