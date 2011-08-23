@@ -4,6 +4,8 @@ import urllib2
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import simplejson
+from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -27,6 +29,12 @@ class CachedLookupManager(models.Manager):
 
     def request(self, url, max_age=DEFAULT_MAX_AGE):
         return self.get_by_url(url, max_age).response
+
+    def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
+        kwargs['url'] = url
+        embedly_url = 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
+        lookup = self.get_by_url(embedly_url, max_age=max_age)
+        return simplejson.loads(lookup.response)
 
 
 class CachedLookup(models.Model):

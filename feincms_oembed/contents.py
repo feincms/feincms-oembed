@@ -1,11 +1,9 @@
 import feedparser
-from urllib import urlopen
 
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils import simplejson
-from django.utils.http import urlquote, urlencode
 from django.utils.translation import ugettext_lazy as _
 
 from feincms_oembed.models import CachedLookup
@@ -20,36 +18,27 @@ class OembedContent(models.Model):
         verbose_name_plural = _('External contents')
 
     @classmethod
-    def initialize_type(cls, PARAM_CHOICES=None, DIMENSION_CHOICES=None):
-        if PARAM_CHOICES is not None:
-            cls.add_to_class('parameters', models.CharField(max_length=50,
-                                            choices=PARAM_CHOICES,
-                                            default=PARAM_CHOICES[0][0]))
+    def initialize_type(cls, DIMENSION_CHOICES=None):
         if DIMENSION_CHOICES is not None:
             cls.add_to_class('dimension', models.CharField(_('dimension'),
                 max_length=10, blank=True, null=True, choices=DIMENSION_CHOICES,
                 default=DIMENSION_CHOICES[0][0]))
 
     def get_html_from_json(self):
-        params = ''
+        params = {}
         if 'dimension' in dir(self):
             dimensions = self.dimension.split('x')
-            params += urlencode({'maxwidth' : dimensions[0], 'maxheight' : dimensions[1]})
-        if 'parameters' in dir(self):
-            params += self.parameters
-        if len(params) > 0:
-            params = '&%s' % params
-
-        oohembed_url = 'http://api.embed.ly/1/oembed?url=%s%s' % (urlquote(self.url), params)
+            params.update({'maxwidth' : dimensions[0], 'maxheight' : dimensions[1]})
 
         try:
-            json = simplejson.loads(CachedLookup.objects.request(oohembed_url))
-            type = json.get('type')
+            embed = CachedLookup.objects.oembed(self.url, **params)
         except simplejson.JSONDecodeError:
-            raise ValidationError('The specified url %s does not respond oembed json' % oohembed_url)
+            raise ValidationError('The specified URL %s cannot be used with embed.ly' % self.url)
 
-        return render_to_string(('external/%s.html' % type, 'external/default.html'),
-                                {'response' : json, 'content' : self})
+        return render_to_string((
+            'external/%s.html' % embed.get('type', 'default'),
+            'external/default.html',
+            ), {'response': embed, 'content': self})
 
     def clean(self, *args, **kwargs):
         self.get_html_from_json()
