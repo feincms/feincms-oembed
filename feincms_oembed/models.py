@@ -11,7 +11,7 @@ DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
 
 
 class CachedLookupManager(models.Manager):
-    def request(self, url, max_age=DEFAULT_MAX_AGE):
+    def get_by_url(self, url, max_age=DEFAULT_MAX_AGE):
         lookup, created = self.get_or_create(
             hash=hashlib.sha1(url).hexdigest(),
             max_age_seconds=max_age,
@@ -23,7 +23,10 @@ class CachedLookupManager(models.Manager):
             lookup.clean()
             lookup.save()
 
-        return lookup.response
+        return lookup
+
+    def request(self, url, max_age=DEFAULT_MAX_AGE):
+        return self.get_by_url(url, max_age).response
 
 
 class CachedLookup(models.Model):
