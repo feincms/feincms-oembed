@@ -19,4 +19,18 @@ It's stunningly simple to use:
 
 3. There is no third step!
 
+
+If you want to customize the Embedly_ request or use another OEmbed provider,
+set ``OEMBED_PROVIDER`` to a function receiving the URL and a dict with
+additional arguments and returning a suitable URL which returns OEmbed JSON
+on access. ``OEMBED_PROVIDER`` must either be a dotted python path or a
+callable::
+
+    from feincms_oembed.models import oembed_provider
+    def my_provider(url, kwargs):
+        kwargs['wmode'] = 'opaque'
+        return oembed_provider(url, kwargs)
+    OEMBED_PROVIDER = my_provider
+
+
 .. _Embedly: http://embed.ly/

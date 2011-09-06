@@ -2,6 +2,7 @@ from datetime import datetime
 import hashlib
 import urllib2
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import simplejson
@@ -10,6 +11,15 @@ from django.utils.translation import ugettext_lazy as _
 
 
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
+
+
+def oembed_provider(url, kwargs):
+    kwargs['url'] = url
+    embedly_url = 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
+
+if getattr(settings, 'OEMBED_PROVIDER', None):
+    from feincms.utils import get_object
+    oembed_provider = get_object(settings.OEMBED_PROVIDER)
 
 
 class CachedLookupManager(models.Manager):
@@ -31,9 +41,9 @@ class CachedLookupManager(models.Manager):
         return self.get_by_url(url, max_age).response
 
     def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
-        kwargs['url'] = url
-        embedly_url = 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
-        lookup = self.get_by_url(embedly_url, max_age=max_age)
+        lookup = self.get_by_url(
+            oembed_provider(url, kwargs),
+            max_age=max_age)
         return simplejson.loads(lookup.response)
 
 
