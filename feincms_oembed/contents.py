@@ -24,7 +24,7 @@ class OembedContent(models.Model):
                 max_length=10, blank=True, null=True, choices=DIMENSION_CHOICES,
                 default=DIMENSION_CHOICES[0][0]))
 
-    def get_html_from_json(self):
+    def get_html_from_json(self, fail_silently=False):
         params = {}
         if 'dimension' in dir(self):
             dimensions = self.dimension.split('x')
@@ -32,7 +32,9 @@ class OembedContent(models.Model):
 
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
-        except simplejson.JSONDecodeError:
+        except (simplejson.JSONDecodeError, TypeError):
+            if fail_silently:
+                return u''
             raise ValidationError('The specified URL %s cannot be used with embed.ly' % self.url)
 
         return render_to_string((
@@ -44,7 +46,7 @@ class OembedContent(models.Model):
         self.get_html_from_json()
 
     def render(self, **kwargs):
-        return self.get_html_from_json()
+        return self.get_html_from_json(fail_silently=True)
 
 
 class FeedContent(models.Model):
