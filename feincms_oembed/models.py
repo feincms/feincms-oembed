@@ -86,7 +86,7 @@ class CachedLookup(models.Model):
         try:
             request = urllib2.urlopen(self.url)
         except urllib2.URLError as e:
-            raise ValidationError('This URL cannot be requested: %s', e)
+            raise ValidationError(u'This URL cannot be requested: %s' % self.url, e)
 
         raw = request.read()
 
