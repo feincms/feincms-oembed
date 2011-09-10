@@ -15,7 +15,7 @@ DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
 
 def oembed_provider(url, kwargs):
     kwargs['url'] = url
-    embedly_url = 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
+    return 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
 
 if getattr(settings, 'OEMBED_PROVIDER', None):
     from feincms.utils import get_object
