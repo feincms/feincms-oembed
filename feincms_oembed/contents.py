@@ -1,4 +1,8 @@
-import feedparser
+try:
+    import feedparser
+except ImportError, e:
+    import warnings
+    warnings.warn("%s - Is only used with FeedContent. If you don't use FeedContent, you're fine." % e, Warning)
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -32,7 +36,7 @@ class OembedContent(models.Model):
 
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
-        except (simplejson.JSONDecodeError, TypeError):
+        except TypeError:
             if fail_silently:
                 return u''
             raise ValidationError('The specified URL %s cannot be used with embed.ly' % self.url)
