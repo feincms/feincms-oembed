@@ -34,3 +34,10 @@ callable::
 
 
 .. _Embedly: http://embed.ly/
+
+
+Using the ``FeedContent``
+=========================
+
+If you want to use the ``FeedContent``, make shure you have ``feedparser`` in your Python Path:
+https://code.google.com/p/feedparser/

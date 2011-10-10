@@ -1,13 +1,6 @@
-try:
-    import feedparser
-except ImportError, e:
-    import warnings
-    warnings.warn("%s - Is only used with FeedContent. If you don't use FeedContent, you're fine." % e, Warning)
-
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
 
 from feincms_oembed.models import CachedLookup
@@ -62,6 +55,8 @@ class FeedContent(models.Model):
         verbose_name_plural = _('RSS Feeds')
 
     def clean(self, *args, **kwargs):
+        import feedparser
+        
         response = CachedLookup.objects.request(self.url, 30*60)
         result = feedparser.parse(response)
 
@@ -73,6 +68,8 @@ class FeedContent(models.Model):
 
     @property
     def feed(self):
+        import feedparser
+
         return feedparser.parse(CachedLookup.objects.request(self.url, 30*60))
 
     def render(self, **kwargs):
