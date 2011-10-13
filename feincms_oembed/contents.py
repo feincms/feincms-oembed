@@ -23,7 +23,8 @@ class OembedContent(models.Model):
 
     def get_html_from_json(self, fail_silently=False):
         params = {}
-        if 'dimension' in dir(self):
+
+        if 'dimension' in dir(self) and self.dimension:
             dimensions = self.dimension.split('x')
             params.update({'maxwidth' : dimensions[0], 'maxheight' : dimensions[1]})
 
