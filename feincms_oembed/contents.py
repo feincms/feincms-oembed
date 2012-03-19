@@ -7,6 +7,17 @@ from feincms_oembed.models import CachedLookup
 
 
 class OembedContent(models.Model):
+    """
+    Content type for integrating anything supported by the oembed provider into the CMS
+
+    Usage::
+
+        Page.create_content_type(OembedContent, TYPE_CHOICES=[
+            ('default', _('Default presentation'), {'maxwidth': 500, 'maxheight': 300}),
+            ('transparent, _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+            ])
+    """
+
     url = models.URLField(_('URL'), help_text=_('Paste here any URL from supported external websites. F.e. a Youtube Video will be: http://www.youtube.com/watch?v=Nd-vBFJN_2E, a Vimeo Video will be http://vimeo.com/16090755 or a soundcloud audio file: http://soundcloud.com/feinheit/focuszone-radio-spot more sites: http://api.embed.ly/'))
 
     class Meta:
@@ -15,18 +26,15 @@ class OembedContent(models.Model):
         verbose_name_plural = _('External contents')
 
     @classmethod
-    def initialize_type(cls, DIMENSION_CHOICES=None):
-        if DIMENSION_CHOICES is not None:
-            cls.add_to_class('dimension', models.CharField(_('dimension'),
-                max_length=10, blank=True, null=True, choices=DIMENSION_CHOICES,
-                default=DIMENSION_CHOICES[0][0]))
+    def initialize_type(cls, TYPE_CHOICES):
+        choices = [row[0:2] for row in TYPE_CHOICES]
+        cls.add_to_class('type', models.CharField(_('type'), max_length=20,
+            choices=choices, default=choices[0][0]))
+
+        cls._type_config = dict((row[0], row[2]) for row in TYPE_CHOICES)
 
     def get_html_from_json(self, fail_silently=False):
-        params = {}
-
-        if 'dimension' in dir(self) and self.dimension:
-            dimensions = self.dimension.split('x')
-            params.update({'maxwidth' : dimensions[0], 'maxheight' : dimensions[1]})
+        params = self._type_config.get(self.type, {})
 
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
