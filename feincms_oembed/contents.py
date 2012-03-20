@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
+from django.utils import simplejson as json
 
 from feincms_oembed.models import CachedLookup
 
@@ -30,11 +31,13 @@ class OembedContent(models.Model):
         choices = [row[0:2] for row in TYPE_CHOICES]
         cls.add_to_class('type', models.CharField(_('type'), max_length=20,
             choices=choices, default=choices[0][0]))
-
         cls._type_config = dict((row[0], row[2]) for row in TYPE_CHOICES)
 
     def get_html_from_json(self, fail_silently=False):
         params = self._type_config.get(self.type, {})
+
+        if 'parameters' in dir(self) and self.parameters:
+            params.update(json.loads(self.parameters))
 
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
