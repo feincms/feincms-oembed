@@ -15,13 +15,17 @@ It's stunningly simple to use:
     from feincms.module.page.models import Page
     from feincms_oembed.contents import OembedContent
 
-    Page.create_content_type(OembedContent)
 
-3. There is no third step!
+    TYPE_CHOICES=[
+        ('default', _('Default presentation'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'opaque'}),
+        ('transparent, _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+        ])
+
+    Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES)
 
 
 If you want to customize the Embedly_ request or use another OEmbed provider,
-set ``OEMBED_PROVIDER`` to a function receiving the URL and a dict with
+set ``settings.OEMBED_PROVIDER`` to a function receiving the URL and a dict with
 additional arguments and returning a suitable URL which returns OEmbed JSON
 on access. ``OEMBED_PROVIDER`` must either be a dotted python path or a
 callable::
@@ -39,5 +43,5 @@ callable::
 Using the ``FeedContent``
 =========================
 
-If you want to use the ``FeedContent``, make shure you have ``feedparser`` in your Python Path:
+If you want to use the ``FeedContent``, make sure you have ``feedparser`` in your Python Path:
 https://code.google.com/p/feedparser/
