@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
+from django.utils import simplejson as json
 
 from feincms_oembed.models import CachedLookup
 
@@ -15,11 +16,16 @@ class OembedContent(models.Model):
         verbose_name_plural = _('External contents')
 
     @classmethod
-    def initialize_type(cls, DIMENSION_CHOICES=None):
-        if DIMENSION_CHOICES is not None:
-            cls.add_to_class('dimension', models.CharField(_('dimension'),
-                max_length=10, blank=True, null=True, choices=DIMENSION_CHOICES,
-                default=DIMENSION_CHOICES[0][0]))
+    def initialize_type(cls, PARAM_CHOICES=None, DIMENSION_CHOICES=None):
+            if PARAM_CHOICES is not None:
+                cls.add_to_class('parameters', models.CharField(_('parameters'),
+                                                max_length=100,
+                                                choices=PARAM_CHOICES,
+                                                default=PARAM_CHOICES[0][0]))
+            if DIMENSION_CHOICES is not None:
+                cls.add_to_class('dimension', models.CharField(_('dimension'),
+                    max_length=10, blank=True, null=True, choices=DIMENSION_CHOICES,
+                    default=DIMENSION_CHOICES[0][0]))
 
     def get_html_from_json(self, fail_silently=False):
         params = {}
@@ -27,6 +33,9 @@ class OembedContent(models.Model):
         if 'dimension' in dir(self) and self.dimension:
             dimensions = self.dimension.split('x')
             params.update({'maxwidth' : dimensions[0], 'maxheight' : dimensions[1]})
+
+        if 'parameters' in dir(self) and self.parameters:
+            params.update(json.loads(self.parameters))
 
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
