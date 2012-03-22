@@ -1,0 +1,95 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-22 10:03+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: contents.py:22 models.py:59
+msgid "URL"
+msgstr "URL"
+
+#: contents.py:23
+msgid ""
+"Insert an URL to an external content you want to embed, f.e. http://www."
+"youtube.com/watch?v=Nd-vBFJN_2E"
+msgstr ""
+"Hier eine URL eines externen Inhalts einfügen, z.B. http://www.youtube.com/"
+"watch?v=Nd-vBFJN_2E"
+
+#: contents.py:28
+msgid "External content"
+msgstr "Externer Inhalt"
+
+#: contents.py:29
+msgid "External contents"
+msgstr "Externe Inhalte"
+
+#: contents.py:34
+msgid "type"
+msgstr "Typ"
+
+#: contents.py:49
+#, python-format
+msgid "I don't know how to embed %s."
+msgstr "Ich weiss nicht wie ich %s einbetten soll."
+
+#: contents.py:64
+msgid "Feed URL"
+msgstr "Feed-URL"
+
+#: contents.py:65
+msgid ""
+"Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/"
+msgstr ""
+"Hier ein URL eines RSS-Feeds einfügen, z.B. https://www.djangoproject.com/"
+"rss/weblog/"
+
+#: contents.py:70
+msgid "RSS Feed"
+msgstr "RSS-Feed"
+
+#: contents.py:71
+msgid "RSS Feeds"
+msgstr "RSS-Feeds"
+
+#: models.py:57
+msgid "hash"
+msgstr "Hash"
+
+#: models.py:58
+msgid "SHA-1 hash of the URL."
+msgstr "SHA-1 Hash der URL."
+
+#: models.py:63
+msgid "Max. age in seconds"
+msgstr "Maximales Alter in Sekunden"
+
+#: models.py:66
+msgid "created"
+msgstr "Erstellt"
+
+#: models.py:67
+msgid "modified"
+msgstr "Verändert"
+
+#: models.py:70
+msgid "cached lookup"
+msgstr "Zwischengespeicherte Einbettung"
+
+#: models.py:71
+msgid "cached lookups"
+msgstr "Zwischengespeicherte Einbettungen"

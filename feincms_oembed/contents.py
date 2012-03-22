@@ -19,7 +19,9 @@ class OembedContent(models.Model):
             ])
     """
 
-    url = models.URLField(_('URL'), help_text=_('Paste here any URL from supported external websites. F.e. a Youtube Video will be: http://www.youtube.com/watch?v=Nd-vBFJN_2E, a Vimeo Video will be http://vimeo.com/16090755 or a soundcloud audio file: http://soundcloud.com/feinheit/focuszone-radio-spot more sites: http://api.embed.ly/'))
+    url = models.URLField(_('URL'),
+        help_text=_('Insert an URL to an external content you want to embed, f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
+        verify_exists=False)
 
     class Meta:
         abstract = True
@@ -44,7 +46,7 @@ class OembedContent(models.Model):
         except TypeError:
             if fail_silently:
                 return u''
-            raise ValidationError('The specified URL %s cannot be used with embed.ly' % self.url)
+            raise ValidationError(_('I don\'t know how to embed %s.') % self.url)
 
         return render_to_string((
             'external/%s.html' % embed.get('type', 'default'),
@@ -59,7 +61,9 @@ class OembedContent(models.Model):
 
 
 class FeedContent(models.Model):
-    url = models.URLField(_('Feed URL'), help_text=_('Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/'))
+    url = models.URLField(_('Feed URL'),
+        help_text=_('Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/'),
+        verify_exists=False)
 
     class Meta:
         abstract = True
@@ -68,7 +72,7 @@ class FeedContent(models.Model):
 
     def clean(self, *args, **kwargs):
         import feedparser
-        
+
         response = CachedLookup.objects.request(self.url, 30*60)
         result = feedparser.parse(response)
 
