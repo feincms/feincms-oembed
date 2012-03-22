@@ -6,23 +6,29 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import simplejson
-from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
+
+from feincms.utils import get_object
 
 
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
 
 
-def oembed_provider(url, kwargs):
-    kwargs['url'] = url
-    return 'http://api.embed.ly/1/oembed?%s' % urlencode(kwargs)
-
-if getattr(settings, 'OEMBED_PROVIDER', None):
-    from feincms.utils import get_object
-    oembed_provider = get_object(settings.OEMBED_PROVIDER)
-
-
 class CachedLookupManager(models.Manager):
+    _oembed_provider_fn = None
+
+    def oembed_provider(self, url, kwargs):
+        """
+        Helper method returning the oEmbed provider function
+        """
+
+        if not self._oembed_provider_fn:
+            self._oembed_provider_fn = get_object(getattr(settings,
+                'OEMBED_PROVIDER',
+                'feincms_oembed.providers.embedly_oembed_provider',
+                ))
+        return self._oembed_provider_fn(url, kwargs)
+
     def get_by_url(self, url, max_age=DEFAULT_MAX_AGE):
         lookup, created = self.get_or_create(
             hash=hashlib.sha1(url).hexdigest(),
@@ -42,7 +48,7 @@ class CachedLookupManager(models.Manager):
 
     def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
         lookup = self.get_by_url(
-            oembed_provider(url, kwargs),
+            self.oembed_provider(url, kwargs),
             max_age=max_age)
         return simplejson.loads(lookup.response)
 

@@ -4,7 +4,7 @@ feincms-oembed
 
 ``feincms-oembed`` converts standard URLs from more than 200 content
 providers into embedded videos, images and rich article previews by
-letting Embedly_ to the hard work.
+letting Embedly_ or another oEmbed provider to the hard work.
 
 
 It's stunningly simple to use:
@@ -30,11 +30,14 @@ additional arguments and returning a suitable URL which returns OEmbed JSON
 on access. ``OEMBED_PROVIDER`` must either be a dotted python path or a
 callable::
 
-    from feincms_oembed.models import oembed_provider
+    from feincms_oembed.providers import embedly_oembed_provider
     def my_provider(url, kwargs):
         kwargs['wmode'] = 'opaque'
-        return oembed_provider(url, kwargs)
-    OEMBED_PROVIDER = my_provider
+        return embedly_oembed_provider(url, kwargs)
+
+    OEMBED_PROVIDER = 'path.to.module.my_provider'
+    # OEMBED_PROVIDER = my_provider # The function can be used too, not only the
+                                    # dotted python path.
 
 
 .. _Embedly: http://embed.ly/
