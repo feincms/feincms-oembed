@@ -50,7 +50,13 @@ class CachedLookupManager(models.Manager):
         lookup = self.get_by_url(
             self.oembed_provider(url, kwargs),
             max_age=max_age)
-        return json.loads(lookup.response)
+
+        response = json.loads(lookup.response)
+        try:
+            response['updated'] = lookup.modified
+        except AttributeError:
+            pass
+        return response
 
 
 class CachedLookup(models.Model):
