@@ -56,7 +56,7 @@ class CachedLookupManager(models.Manager):
 class CachedLookup(models.Model):
     hash = models.CharField(_('hash'), max_length=40, unique=True,
         help_text=_('SHA-1 hash of the URL.'))
-    url = models.URLField(_('URL'), verify_exists=False, max_length=1000)
+    url = models.URLField(_('URL'), max_length=1000)
     _response = models.TextField(blank=True, null=True)
     _httpstatus = models.PositiveIntegerField(blank=True, null=True)
 

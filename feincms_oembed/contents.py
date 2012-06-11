@@ -21,7 +21,7 @@ class OembedContent(models.Model):
 
     url = models.URLField(_('URL'),
         help_text=_('Insert an URL to an external content you want to embed, f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
-        verify_exists=False)
+        )
 
     class Meta:
         abstract = True
@@ -63,7 +63,7 @@ class OembedContent(models.Model):
 class FeedContent(models.Model):
     url = models.URLField(_('Feed URL'),
         help_text=_('Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/'),
-        verify_exists=False)
+        )
 
     class Meta:
         abstract = True
