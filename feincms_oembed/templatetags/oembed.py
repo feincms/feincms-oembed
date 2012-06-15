@@ -1,5 +1,6 @@
+import json
+
 from django import template
-from django.utils import simplejson
 from django.utils.http import urlquote
 
 from feincms_oembed.models import CachedLookup
@@ -17,28 +18,34 @@ class Oembed(template.Node):
         try:
             url = self.url.resolve(context)
 
-            oohembed_url = 'http://api.embed.ly/1/oembed?url=%s&%s' % (urlquote(url), self.params)
+            # TODO use configured provider instead
+            ooembed_url = 'http://api.embed.ly/1/oembed?url=%s&%s' % (
+                urlquote(url), self.params)
 
-            lookup, created = CachedLookup.objects.get_or_create(url=oohembed_url)
+            lookup, created = CachedLookup.objects.get_or_create(url=ooembed_url)
 
             try:
-                json = simplejson.loads(lookup.response)
-                html = json.get('html')
-            except simplejson.JSONDecodeError:
-                raise template.TemplateSyntaxError('The specified url %s does not respond oembed json' % oohembed_url)
+                data = json.loads(lookup.response)
+                html = data.get('html')
+            except ValueError:
+                raise template.TemplateSyntaxError(
+                    'The specified url %s does not respond oembed json' % ooembed_url)
 
             if html:
                 return html
-            elif json.get('type') == 'photo':
+            elif data.get('type') == 'photo':
                 # TODO: Research for different types and build templates for it
-                return u'<img src="%s" />' % json.get('url')
+                return u'<img src="%s" />' % data.get('url')
             else:
-                return u'<!-- could not parse response %s -->' % json
+                return u'<!-- could not parse response %s -->' % data
         except template.VariableDoesNotExist, e:
             return u'<!-- %s -->' % e
 
+
 @register.tag(name='oembed')
 def do_oembed(parser, token):
+    # TODO KILL IT WITH FIRE
+    # ... or rewrite it completely
     try:
         tag_name, url, params = token.split_contents()
     except ValueError:

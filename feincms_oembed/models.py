@@ -1,11 +1,11 @@
 from datetime import datetime
 import hashlib
+import json
 import urllib2
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
 
 from feincms.utils import get_object
@@ -50,7 +50,7 @@ class CachedLookupManager(models.Manager):
         lookup = self.get_by_url(
             self.oembed_provider(url, kwargs),
             max_age=max_age)
-        return simplejson.loads(lookup.response)
+        return json.loads(lookup.response)
 
 
 class CachedLookup(models.Model):
