@@ -1,4 +1,3 @@
-from datetime import datetime
 import hashlib
 import json
 import urllib2
@@ -6,6 +5,7 @@ import urllib2
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from feincms.utils import get_object
@@ -74,7 +74,7 @@ class CachedLookup(models.Model):
 
     @property
     def response(self):
-        delta = datetime.now() - self.modified
+        delta = timezone.now() - self.modified
 
         if delta.seconds > self.max_age_seconds:
             self.clean()
