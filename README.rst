@@ -18,7 +18,7 @@ It's stunningly simple to use:
 
     TYPE_CHOICES=[
         ('default', _('Default presentation'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'opaque'}),
-        ('transparent, _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+        ('transparent', _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
         ])
 
     Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES)
