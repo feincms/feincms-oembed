@@ -44,6 +44,13 @@ callable::
 .. _Embedly: http://embed.ly/
 
 
+The content is looking for templates in the following order in the folder ``content/external/``:
+
+ 1. type of the embedded object (e.g. 'video') + `.html`
+ 2. type of the content type (e.g. 'transparent') + `.html`
+ 3. `default.html`
+
+
 If you don't want any surprises with blocked access to embedly I suggest registering for
 a free API key: https://app.embed.ly/pricing/free
 
