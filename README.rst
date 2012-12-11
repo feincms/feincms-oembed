@@ -15,12 +15,12 @@ It's stunningly simple to use:
     from feincms.module.page.models import Page
     from feincms_oembed.contents import OembedContent
 
-    TYPE_CHOICES=[
+    TYPE_CHOICES = [
         ('default', _('Default presentation'), {
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'opaque'}),
         ('transparent', _('Transparent'), {
             'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
-        ])
+        ]
 
     Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES)
 
@@ -44,8 +44,8 @@ callable::
         return embedly_oembed_provider(url, kwargs)
 
     OEMBED_PROVIDER = 'path.to.module.my_provider'
-    # OEMBED_PROVIDER = my_provider # The function can be used too, not only the
-                                    # dotted python path.
+    # OEMBED_PROVIDER = my_provider # The function can be used too, not only
+                                    # the dotted python path.
 
 
 The content is looking for templates in the following order in the folder
@@ -62,9 +62,10 @@ that you register_ for a free API key.
 Using the ``FeedContent``
 =========================
 
-If you want to use the ``FeedContent``, make sure you have ``feedparser`` in your Python Path:
-https://code.google.com/p/feedparser/
+If you want to use the ``FeedContent``, make sure you have feedparser_ in
+your Python path.
 
 
 .. _Embedly: https://embed.ly/
 .. _register: https://app.embed.ly/pricing/free
+.. _feedparser: https://code.google.com/p/feedparser/
