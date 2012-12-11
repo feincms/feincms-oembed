@@ -53,7 +53,7 @@ class CachedLookupManager(models.Manager):
 
         response = json.loads(lookup.response)
         try:
-            response['updated'] = lookup.modified
+            response['modified'] = lookup.modified
         except AttributeError:
             pass
         return response
