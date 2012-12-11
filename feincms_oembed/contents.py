@@ -52,7 +52,8 @@ class OembedContent(models.Model):
             raise ValidationError(_('I don\'t know how to embed %s.') % self.url)
 
         return render_to_string((
-            'external/%s.html' % embed.get('type', 'default'),
+            'external/%s.html' % embed.get('type'),
+            'external/%s.html' % self.type,
             'external/default.html',
             ), {'response': embed, 'content': self})
 
