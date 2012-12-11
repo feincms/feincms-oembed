@@ -21,7 +21,8 @@ It's stunningly simple to use:
         ('transparent', _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
         ])
 
-    Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES)
+    Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES,
+                PARAMS={'wmode': 'opaque', key:settings.EMBEDLY_KEY })
 
 
 If you want to customize the Embedly_ request or use another OEmbed provider,
@@ -41,6 +42,17 @@ callable::
 
 
 .. _Embedly: http://embed.ly/
+
+
+The content is looking for templates in the following order in the folder ``content/external/``:
+
+ 1. type of the embedded object (e.g. 'video') + `.html`
+ 2. type of the content type (e.g. 'transparent') + `.html`
+ 3. `default.html`
+
+
+If you don't want any surprises with blocked access to embedly I suggest registering for
+a free API key: https://app.embed.ly/pricing/free
 
 
 Using the ``FeedContent``

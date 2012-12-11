@@ -30,14 +30,16 @@ class OembedContent(models.Model):
         verbose_name_plural = _('External contents')
 
     @classmethod
-    def initialize_type(cls, TYPE_CHOICES):
+    def initialize_type(cls, TYPE_CHOICES, PARAMS={}):
         choices = [row[0:2] for row in TYPE_CHOICES]
         cls.add_to_class('type', models.CharField(_('type'), max_length=20,
             choices=choices, default=choices[0][0]))
         cls._type_config = dict((row[0], row[2]) for row in TYPE_CHOICES)
+        cls._params = PARAMS
 
     def get_html_from_json(self, fail_silently=False):
         params = self._type_config.get(self.type, {})
+        params.update(self._params)
 
         if 'parameters' in dir(self) and self.parameters:
             params.update(json.loads(self.parameters))
@@ -50,8 +52,9 @@ class OembedContent(models.Model):
             raise ValidationError(_('I don\'t know how to embed %s.') % self.url)
 
         return render_to_string((
-            'external/%s.html' % embed.get('type', 'default'),
-            'external/default.html',
+            'content/external/%s.html' % embed.get('type'),
+            'content/external/%s.html' % self.type,
+            'content/external/default.html',
             ), {'response': embed, 'content': self})
 
     def clean(self, *args, **kwargs):
