@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: feincms-oembed\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-22 13:39+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: contents.py:23 models.py:65
+msgid "URL"
+msgstr "URL"
+
+#: contents.py:24
+msgid ""
+"Insert an URL to an external content you want to embed, f.e. http://www."
+"youtube.com/watch?v=Nd-vBFJN_2E"
+msgstr ""
+"Inserta la URL al contenido externo que desees incrustar, p. ej. http://www."
+"youtube.com/watch?v=Nd-vBFJN_2E"
+
+#: contents.py:29
+msgid "External content"
+msgstr "Contenido externo"
+
+#: contents.py:30
+msgid "External contents"
+msgstr "Contenidos externos"
+
+#: contents.py:35
+msgid "type"
+msgstr "tipo"
+
+#: contents.py:52
+#, python-format
+msgid "I don't know how to embed %s."
+msgstr "No sé cómo incrustar %s."
+
+#: contents.py:68
+msgid "Feed URL"
+msgstr "URL del feed"
+
+#: contents.py:69
+msgid ""
+"Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/"
+msgstr ""
+"Pega aquí la URL del feed RSS. P. ej. https://www.djangoproject.com/rss/weblog/"
+
+#: contents.py:74
+msgid "RSS Feed"
+msgstr "Feed RSS"
+
+#: contents.py:75
+msgid "RSS Feeds"
+msgstr "Feeds RSS"
+
+#: models.py:63
+msgid "hash"
+msgstr "hash"
+
+#: models.py:64
+msgid "SHA-1 hash of the URL."
+msgstr "Hash SHA-1 de la URL"
+
+#: models.py:69
+msgid "Max. age in seconds"
+msgstr "Edad máxima en segundos"
+
+#: models.py:72
+msgid "created"
+msgstr "creado"
+
+#: models.py:73
+msgid "modified"
+msgstr "modificado"
+
+#: models.py:76
+msgid "cached lookup"
+msgstr "búsqueda en caché"
+
+#: models.py:77
+msgid "cached lookups"
+msgstr "búsquedas en caché"
