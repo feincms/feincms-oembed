@@ -25,7 +25,7 @@ class OembedContent(models.Model):
         _('URL'),
         help_text=_(
             'Insert an URL to an external content you want to embed,'
-            ' f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
+            ' e.g. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
     )
 
     class Meta:
@@ -77,8 +77,8 @@ class FeedContent(models.Model):
     url = models.URLField(
         _('Feed URL'),
         help_text=_(
-            'Paste here any RSS Feed URL.'
-            ' F.e. https://www.djangoproject.com/rss/weblog/'),
+            'Insert any RSS URL,'
+            ' e.g. https://www.djangoproject.com/rss/weblog/'),
     )
 
     class Meta:
@@ -123,7 +123,7 @@ class OembedMixin(models.Model):
         _('Video URL'),
         help_text=_(
             'Insert an URL to an external content you want to embed,'
-            ' f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
+            ' e.g. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
         blank=True,
     )
 
