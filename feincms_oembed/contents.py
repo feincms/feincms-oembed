@@ -54,9 +54,6 @@ class OembedContent(models.Model):
         params = self._type_config.get(self.type, {})
         params.update(self._params)
 
-        if 'parameters' in dir(self) and self.parameters:
-            params.update(json.loads(self.parameters))
-
         try:
             embed = CachedLookup.objects.oembed(self.url, **params)
         except TypeError:
