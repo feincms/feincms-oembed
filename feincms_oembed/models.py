@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from feincms.utils import get_object
 
 
-DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 # Cache lookups for a week
+DEFAULT_MAX_AGE = 7 * 24 * 60 * 60  # Cache lookups for a week
 
 
 class CachedLookupManager(models.Manager):
@@ -23,10 +23,11 @@ class CachedLookupManager(models.Manager):
         """
 
         if not self._oembed_provider_fn:
-            self._oembed_provider_fn = get_object(getattr(settings,
+            self._oembed_provider_fn = get_object(getattr(
+                settings,
                 'OEMBED_PROVIDER',
                 'feincms_oembed.providers.embedly_oembed_provider',
-                ))
+            ))
         return self._oembed_provider_fn(url, kwargs)
 
     def get_by_url(self, url, max_age=DEFAULT_MAX_AGE):
@@ -35,7 +36,8 @@ class CachedLookupManager(models.Manager):
             max_age_seconds=max_age,
             defaults={
                 'url': url,
-                })
+            },
+        )
 
         if created:
             lookup.clean()
@@ -49,7 +51,8 @@ class CachedLookupManager(models.Manager):
     def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
         lookup = self.get_by_url(
             self.oembed_provider(url, kwargs),
-            max_age=max_age)
+            max_age=max_age,
+        )
 
         response = json.loads(lookup.response)
         try:
@@ -60,14 +63,15 @@ class CachedLookupManager(models.Manager):
 
 
 class CachedLookup(models.Model):
-    hash = models.CharField(_('hash'), max_length=40, unique=True,
+    hash = models.CharField(
+        _('hash'), max_length=40, unique=True,
         help_text=_('SHA-1 hash of the URL.'))
     url = models.URLField(_('URL'), max_length=1000)
     _response = models.TextField(blank=True, null=True)
     _httpstatus = models.PositiveIntegerField(blank=True, null=True)
 
-    max_age_seconds = models.PositiveIntegerField(_('Max. age in seconds'),
-        default=DEFAULT_MAX_AGE)
+    max_age_seconds = models.PositiveIntegerField(
+        _('Max. age in seconds'), default=DEFAULT_MAX_AGE)
 
     created = models.DateTimeField(_('created'), auto_now_add=True)
     modified = models.DateTimeField(_('modified'), auto_now=True)
@@ -86,8 +90,9 @@ class CachedLookup(models.Model):
             self.clean()
             self.save()
 
-        # http responses are always ascii. but django decodes the ascii bytestring
-        # during saving. so we have to reencode, sometimes. (after the data was written to the db)
+        # http responses are always ascii. but django decodes the ascii
+        # bytestring during saving. so we have to reencode, sometimes. (after
+        # the data was written to the db)
         response = self._response
         if type(response) == unicode:
             response = response.encode('utf-8')
@@ -98,7 +103,8 @@ class CachedLookup(models.Model):
         try:
             request = urllib2.urlopen(self.url)
         except urllib2.URLError as e:
-            raise ValidationError(u'This URL cannot be requested: %s' % self.url, e)
+            raise ValidationError(
+                u'This URL cannot be requested: %s' % self.url, e)
 
         raw = request.read()
 

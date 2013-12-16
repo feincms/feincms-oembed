@@ -10,30 +10,43 @@ from feincms_oembed.models import CachedLookup
 
 class OembedContent(models.Model):
     """
-    Content type for integrating anything supported by the oembed provider into the CMS
+    Content type for integrating anything supported by the oembed provider into
+    the CMS
 
     Usage::
 
         Page.create_content_type(OembedContent, TYPE_CHOICES=[
-            ('default', _('Default presentation'), {'maxwidth': 500, 'maxheight': 300}),
-            ('transparent', _('Transparent'), {'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
+            ('default', _('Default presentation'), {
+                'maxwidth': 500, 'maxheight': 300}),
+            ('transparent', _('Transparent'), {
+                'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}),
             ])
     """
 
-    url = models.URLField(_('URL'),
-        help_text=_('Insert an URL to an external content you want to embed, f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
-        )
+    url = models.URLField(
+        _('URL'),
+        help_text=_(
+            'Insert an URL to an external content you want to embed,'
+            ' f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
+    )
 
     class Meta:
         abstract = True
-        verbose_name = _('External content')
-        verbose_name_plural = _('External contents')
+        verbose_name = _('external content')
+        verbose_name_plural = _('external contents')
 
     @classmethod
     def initialize_type(cls, TYPE_CHOICES, PARAMS={}):
         choices = [row[0:2] for row in TYPE_CHOICES]
-        cls.add_to_class('type', models.CharField(_('type'), max_length=20,
-            choices=choices, default=choices[0][0]))
+        cls.add_to_class(
+            'type',
+            models.CharField(
+                _('type'),
+                max_length=20,
+                choices=choices,
+                default=choices[0][0],
+            )
+        )
         cls._type_config = dict((row[0], row[2]) for row in TYPE_CHOICES)
         cls._params = PARAMS
 
@@ -49,13 +62,14 @@ class OembedContent(models.Model):
         except TypeError:
             if fail_silently:
                 return u''
-            raise ValidationError(_('I don\'t know how to embed %s.') % self.url)
+            raise ValidationError(
+                _('I don\'t know how to embed %s.') % self.url)
 
         return render_to_string((
             'content/external/%s.html' % embed.get('type'),
             'content/external/%s.html' % self.type,
             'content/external/default.html',
-            ), {'response': embed, 'content': self})
+        ), {'response': embed, 'content': self})
 
     def clean(self, *args, **kwargs):
         self.get_html_from_json()
@@ -65,9 +79,12 @@ class OembedContent(models.Model):
 
 
 class FeedContent(models.Model):
-    url = models.URLField(_('Feed URL'),
-        help_text=_('Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/'),
-        )
+    url = models.URLField(
+        _('Feed URL'),
+        help_text=_(
+            'Paste here any RSS Feed URL.'
+            ' F.e. https://www.djangoproject.com/rss/weblog/'),
+    )
 
     class Meta:
         abstract = True
@@ -76,45 +93,43 @@ class FeedContent(models.Model):
 
     def clean(self, *args, **kwargs):
         import feedparser
-
-        response = CachedLookup.objects.request(self.url, 30*60)
-        result = feedparser.parse(response)
-
-        # no feed validation at this time
-        #if response._httpstatus != 200:
-        #    raise ValidationError('Feed could not be parsed (HTTP Status: %s): %s'
-        #                          % (result.get('status', '?'),
-        #                             result.get('bozo_exception', 'no exception specified')))
+        feedparser.parse(CachedLookup.objects.request(self.url, 30 * 60))
 
     @property
     def feed(self):
         import feedparser
-
-        return feedparser.parse(CachedLookup.objects.request(self.url, 30*60))
+        return feedparser.parse(
+            CachedLookup.objects.request(self.url, 30 * 60))
 
     def render(self, **kwargs):
-        return render_to_string('content/external/feed.html',
-                                {'feed' : self.feed})
+        return render_to_string('content/external/feed.html', {
+            'feed': self.feed,
+        })
 
 
 class OembedMixin(models.Model):
-
     """
     Mixin for usage in custom feincms content types
     Usage::
 
         Page.create_content_type(
             YourContentWithOembedMixin,
-            OEMBED_PARAMS={'maxwidth': 500, 'maxheight': 300, 'wmode': 'transparent'}
+            OEMBED_PARAMS={
+                'maxwidth': 500,
+                'maxheight': 300,
+                'wmode': 'transparent',
+            },
         )
 
     Oembed content will be available via self.oembed
-
     """
 
-    url = models.URLField(_('Video URL'),
-        help_text=_('Insert an URL to an external content you want to embed, f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
-        blank=True
+    url = models.URLField(
+        _('Video URL'),
+        help_text=_(
+            'Insert an URL to an external content you want to embed,'
+            ' f.e. http://www.youtube.com/watch?v=Nd-vBFJN_2E'),
+        blank=True,
     )
 
     class Meta:
@@ -137,10 +152,10 @@ class OembedMixin(models.Model):
         except TypeError:
             if fail_silently:
                 return u''
-            raise ValidationError(_('I don\'t know how to embed %s.') % self.url)
+            raise ValidationError(
+                _('I don\'t know how to embed %s.') % self.url)
 
         self.oembed = embed
 
     def process(self, request, **kwargs):
         self.get_html_from_json()
-

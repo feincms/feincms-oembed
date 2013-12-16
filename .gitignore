@@ -5,8 +5,8 @@
 /secrets.py
 .DS_Store
 ._*
-/FeinCMS.egg-info
 /MANIFEST
 /_build
 /build
 /dist
+/feincms_oembed.egg-info
