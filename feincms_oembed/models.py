@@ -5,10 +5,9 @@ import urllib2
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import timezone
+from django.utils import six, timezone
+from django.utils.importlib import import_module
 from django.utils.translation import ugettext_lazy as _
-
-from feincms.utils import get_object
 
 
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60  # Cache lookups for a week
@@ -23,7 +22,7 @@ class CachedLookupManager(models.Manager):
         """
 
         if not self._oembed_provider_fn:
-            self._oembed_provider_fn = get_object(getattr(
+            self._oembed_provider_fn = _get_object(getattr(
                 settings,
                 'OEMBED_PROVIDER',
                 'feincms_oembed.providers.embedly_oembed_provider',
@@ -117,3 +116,22 @@ class CachedLookup(models.Model):
 
     def __unicode__(self):
         return self.url
+
+
+def _get_object(path, fail_silently=False):
+    # Return early if path isn't a string (might already be an callable or
+    # a class or whatever)
+    if not isinstance(path, six.string_types):  # XXX bytes?
+        return path
+
+    try:
+        return import_module(path)
+    except ImportError:
+        try:
+            dot = path.rindex('.')
+            mod, fn = path[:dot], path[dot + 1:]
+
+            return getattr(import_module(mod), fn)
+        except (AttributeError, ImportError):
+            if not fail_silently:
+                raise

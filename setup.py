@@ -35,7 +35,6 @@ setup(
     },
     install_requires=[
         'Django>=1.4.2',
-        # Yes, form_designer can be used without FeinCMS.
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
