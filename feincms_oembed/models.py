@@ -1,6 +1,9 @@
 import hashlib
 import json
-import urllib2
+try:
+    from urllib.request import URLError, urlopen
+except ImportError:  # PY3
+    from urllib2 import URLError, urlopen
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -100,8 +103,8 @@ class CachedLookup(models.Model):
 
     def clean(self, *args, **kwargs):
         try:
-            request = urllib2.urlopen(self.url)
-        except urllib2.URLError as e:
+            request = urlopen(self.url)
+        except URLError as e:
             raise ValidationError(
                 u'This URL cannot be requested: %s' % self.url, e)
 
