@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feincms-oembed\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-22 13:39+0100\n"
+"POT-Creation-Date: 2015-09-09 12:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,77 +17,81 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: contents.py:23 models.py:65
+#: contents.py:25 models.py:71
 msgid "URL"
 msgstr "URL"
 
-#: contents.py:24
+#: contents.py:27 contents.py:125
 msgid ""
-"Insert an URL to an external content you want to embed, f.e. http://www."
+"Insert an URL to an external content you want to embed, e.g. http://www."
 "youtube.com/watch?v=Nd-vBFJN_2E"
 msgstr ""
 "Inserta la URL al contenido externo que desees incrustar, p. ej. http://www."
 "youtube.com/watch?v=Nd-vBFJN_2E"
 
-#: contents.py:29
-msgid "External content"
+#: contents.py:33
+msgid "external content"
 msgstr "Contenido externo"
 
-#: contents.py:30
-msgid "External contents"
+#: contents.py:34
+msgid "external contents"
 msgstr "Contenidos externos"
 
-#: contents.py:35
+#: contents.py:42
 msgid "type"
 msgstr "tipo"
 
-#: contents.py:52
+#: contents.py:61 contents.py:151
 #, python-format
 msgid "I don't know how to embed %s."
 msgstr "No sé cómo incrustar %s."
 
-#: contents.py:68
+#: contents.py:78
 msgid "Feed URL"
 msgstr "URL del feed"
 
-#: contents.py:69
-msgid ""
-"Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/"
+#: contents.py:80
+msgid "Insert any RSS URL, e.g. https://www.djangoproject.com/rss/weblog/"
 msgstr ""
-"Pega aquí la URL del feed RSS. P. ej. https://www.djangoproject.com/rss/weblog/"
+"Pega aquí la URL del feed RSS. P. ej. https://www.djangoproject.com/rss/"
+"weblog/"
 
-#: contents.py:74
+#: contents.py:86
 msgid "RSS Feed"
 msgstr "Feed RSS"
 
-#: contents.py:75
+#: contents.py:87
 msgid "RSS Feeds"
 msgstr "Feeds RSS"
 
-#: models.py:63
+#: contents.py:123
+msgid "Video URL"
+msgstr ""
+
+#: models.py:69
 msgid "hash"
 msgstr "hash"
 
-#: models.py:64
+#: models.py:70
 msgid "SHA-1 hash of the URL."
 msgstr "Hash SHA-1 de la URL"
 
-#: models.py:69
+#: models.py:76
 msgid "Max. age in seconds"
 msgstr "Edad máxima en segundos"
 
-#: models.py:72
+#: models.py:78
 msgid "created"
 msgstr "creado"
 
-#: models.py:73
+#: models.py:79
 msgid "modified"
 msgstr "modificado"
 
-#: models.py:76
+#: models.py:82
 msgid "cached lookup"
 msgstr "búsqueda en caché"
 
-#: models.py:77
+#: models.py:83
 msgid "cached lookups"
 msgstr "búsquedas en caché"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 10:03+0100\n"
+"POT-Creation-Date: 2015-09-09 12:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,78 +18,81 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: contents.py:22 models.py:59
+#: contents.py:25 models.py:71
 msgid "URL"
 msgstr "URL"
 
-#: contents.py:23
+#: contents.py:27 contents.py:125
 msgid ""
-"Insert an URL to an external content you want to embed, f.e. http://www."
+"Insert an URL to an external content you want to embed, e.g. http://www."
 "youtube.com/watch?v=Nd-vBFJN_2E"
 msgstr ""
 "Hier eine URL eines externen Inhalts einfügen, z.B. http://www.youtube.com/"
 "watch?v=Nd-vBFJN_2E"
 
-#: contents.py:28
-msgid "External content"
+#: contents.py:33
+msgid "external content"
 msgstr "Externer Inhalt"
 
-#: contents.py:29
-msgid "External contents"
+#: contents.py:34
+msgid "external contents"
 msgstr "Externe Inhalte"
 
-#: contents.py:34
+#: contents.py:42
 msgid "type"
 msgstr "Typ"
 
-#: contents.py:49
+#: contents.py:61 contents.py:151
 #, python-format
 msgid "I don't know how to embed %s."
 msgstr "Ich weiss nicht wie ich %s einbetten soll."
 
-#: contents.py:64
+#: contents.py:78
 msgid "Feed URL"
 msgstr "Feed-URL"
 
-#: contents.py:65
-msgid ""
-"Paste here any RSS Feed URL. F.e. https://www.djangoproject.com/rss/weblog/"
+#: contents.py:80
+msgid "Insert any RSS URL, e.g. https://www.djangoproject.com/rss/weblog/"
 msgstr ""
 "Hier ein URL eines RSS-Feeds einfügen, z.B. https://www.djangoproject.com/"
 "rss/weblog/"
 
-#: contents.py:70
+#: contents.py:86
 msgid "RSS Feed"
 msgstr "RSS-Feed"
 
-#: contents.py:71
+#: contents.py:87
 msgid "RSS Feeds"
 msgstr "RSS-Feeds"
 
-#: models.py:57
+#: contents.py:123
+msgid "Video URL"
+msgstr ""
+
+#: models.py:69
 msgid "hash"
 msgstr "Hash"
 
-#: models.py:58
+#: models.py:70
 msgid "SHA-1 hash of the URL."
 msgstr "SHA-1 Hash der URL."
 
-#: models.py:63
+#: models.py:76
 msgid "Max. age in seconds"
 msgstr "Maximales Alter in Sekunden"
 
-#: models.py:66
+#: models.py:78
 msgid "created"
 msgstr "Erstellt"
 
-#: models.py:67
+#: models.py:79
 msgid "modified"
 msgstr "Verändert"
 
-#: models.py:70
+#: models.py:82
 msgid "cached lookup"
 msgstr "Zwischengespeicherte Einbettung"
 
-#: models.py:71
+#: models.py:83
 msgid "cached lookups"
 msgstr "Zwischengespeicherte Einbettungen"
