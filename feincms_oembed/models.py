@@ -1,4 +1,5 @@
 import hashlib
+from importlib import import_module
 import json
 try:
     from urllib.request import URLError, urlopen
@@ -9,7 +10,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import six, timezone
-from django.utils.importlib import import_module
 from django.utils.translation import ugettext_lazy as _
 
 
