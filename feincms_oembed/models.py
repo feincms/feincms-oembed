@@ -1,5 +1,9 @@
 import hashlib
-from importlib import import_module
+try:
+    from importlib import import_module
+except ImportError:  # PY2.6
+    from django.utils.importlib import import_module
+
 import json
 try:
     from urllib.request import URLError, urlopen
