@@ -29,8 +29,13 @@ You can also specify additional parameters which are sent to the OEmbed
 provider too::
 
     Page.create_content_type(OembedContent, TYPE_CHOICES=TYPE_CHOICES,
-        PARAMS={'wmode': 'opaque', 'key': settings.EMBEDLY_KEY})
+        PARAMS={'wmode': 'opaque'})
 
+
+By default feincms_oembed uses the Embedly_ Oembed Provider. This provider
+requires an API key even for the free plan. ``settings.EMBEDLY_KEY`` must
+therefore be set.
+The free plan is good for 5000 URLs per month.
 
 If you want to customize the Embedly_ request or use another OEmbed provider,
 set ``settings.OEMBED_PROVIDER`` to a function receiving the URL and a dict
