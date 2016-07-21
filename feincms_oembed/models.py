@@ -38,7 +38,7 @@ class CachedLookupManager(models.Manager):
 
     def get_by_url(self, url, max_age=DEFAULT_MAX_AGE):
         lookup, created = self.get_or_create(
-            hash=hashlib.sha1(url).hexdigest(),
+            hash=hashlib.sha1(url.encode('utf-8')).hexdigest(),
             max_age_seconds=max_age,
             defaults={
                 'url': url,
@@ -96,14 +96,7 @@ class CachedLookup(models.Model):
             self.clean()
             self.save()
 
-        # http responses are always ascii. but django decodes the ascii
-        # bytestring during saving. so we have to reencode, sometimes. (after
-        # the data was written to the db)
-        response = self._response
-        if type(response) == unicode:
-            response = response.encode('utf-8')
-
-        return response
+        return self._response
 
     def clean(self, *args, **kwargs):
         try:
