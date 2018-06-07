@@ -17,4 +17,4 @@ def noembed_oembed_provider(url, kwargs):
     Provider for the oEmbed service at http://noembed.com/
     """
     kwargs['url'] = url
-    return 'https://noembed.com/embed?%s' % urlencode(kwargs)
+    return 'http://noembed.com/embed?%s' % urlencode(kwargs)
