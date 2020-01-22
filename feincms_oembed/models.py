@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60  # Cache lookups for a week
