@@ -1,10 +1,12 @@
 import hashlib
+
 try:
     from importlib import import_module
 except ImportError:  # PY2.6
     from django.utils.importlib import import_module
 
 import json
+
 try:
     from urllib.request import URLError, urlopen
 except ImportError:  # PY3
@@ -29,20 +31,20 @@ class CachedLookupManager(models.Manager):
         """
 
         if not self._oembed_provider_fn:
-            self._oembed_provider_fn = _get_object(getattr(
-                settings,
-                'OEMBED_PROVIDER',
-                'feincms_oembed.providers.embedly_oembed_provider',
-            ))
+            self._oembed_provider_fn = _get_object(
+                getattr(
+                    settings,
+                    "OEMBED_PROVIDER",
+                    "feincms_oembed.providers.embedly_oembed_provider",
+                )
+            )
         return self._oembed_provider_fn(url, kwargs)
 
     def get_by_url(self, url, max_age=DEFAULT_MAX_AGE):
         lookup, created = self.get_or_create(
-            hash=hashlib.sha1(url.encode('utf-8')).hexdigest(),
+            hash=hashlib.sha1(url.encode("utf-8")).hexdigest(),
             max_age_seconds=max_age,
-            defaults={
-                'url': url,
-            },
+            defaults={"url": url,},
         )
 
         if created:
@@ -55,14 +57,11 @@ class CachedLookupManager(models.Manager):
         return self.get_by_url(url, max_age).response
 
     def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
-        lookup = self.get_by_url(
-            self.oembed_provider(url, kwargs),
-            max_age=max_age,
-        )
+        lookup = self.get_by_url(self.oembed_provider(url, kwargs), max_age=max_age,)
 
         response = json.loads(lookup.response)
         try:
-            response['modified'] = lookup.modified
+            response["modified"] = lookup.modified
         except AttributeError:
             pass
         return response
@@ -70,21 +69,22 @@ class CachedLookupManager(models.Manager):
 
 class CachedLookup(models.Model):
     hash = models.CharField(
-        _('hash'), max_length=40, unique=True,
-        help_text=_('SHA-1 hash of the URL.'))
-    url = models.URLField(_('URL'), max_length=1000)
+        _("hash"), max_length=40, unique=True, help_text=_("SHA-1 hash of the URL.")
+    )
+    url = models.URLField(_("URL"), max_length=1000)
     _response = models.TextField(blank=True, null=True)
     _httpstatus = models.PositiveIntegerField(blank=True, null=True)
 
     max_age_seconds = models.PositiveIntegerField(
-        _('Max. age in seconds'), default=DEFAULT_MAX_AGE)
+        _("Max. age in seconds"), default=DEFAULT_MAX_AGE
+    )
 
-    created = models.DateTimeField(_('created'), auto_now_add=True)
-    modified = models.DateTimeField(_('modified'), auto_now=True)
+    created = models.DateTimeField(_("created"), auto_now_add=True)
+    modified = models.DateTimeField(_("modified"), auto_now=True)
 
     class Meta:
-        verbose_name = _('cached lookup')
-        verbose_name_plural = _('cached lookups')
+        verbose_name = _("cached lookup")
+        verbose_name_plural = _("cached lookups")
 
     objects = CachedLookupManager()
 
@@ -102,15 +102,14 @@ class CachedLookup(models.Model):
         try:
             request = urlopen(self.url)
         except URLError as e:
-            raise ValidationError(
-                u'This URL cannot be requested: %s' % self.url, e)
+            raise ValidationError(u"This URL cannot be requested: %s" % self.url, e)
 
         raw = request.read()
 
         try:
-            decoded = raw.decode('utf-8')
+            decoded = raw.decode("utf-8")
         except UnicodeDecodeError:
-            decoded = raw.decode('iso8859-1')
+            decoded = raw.decode("iso8859-1")
         self._response = decoded
         self._httpstatus = request.getcode()
 
@@ -128,8 +127,8 @@ def _get_object(path, fail_silently=False):
         return import_module(path)
     except ImportError:
         try:
-            dot = path.rindex('.')
-            mod, fn = path[:dot], path[dot + 1:]
+            dot = path.rindex(".")
+            mod, fn = path[:dot], path[dot + 1 :]
 
             return getattr(import_module(mod), fn)
         except (AttributeError, ImportError):
