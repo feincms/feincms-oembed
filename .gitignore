@@ -11,3 +11,4 @@
 /dist
 /feincms_oembed.egg-info
 .tox
+.coverage

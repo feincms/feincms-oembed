@@ -15,8 +15,9 @@ Change log
   instead of rendering the template itself. This raises the minimum
   FeinCMS version to v1.15.
 - Updated the code to work with Django 2 and 3.
+- Added a minimal testsuite after 10 years.
 
 
 
-.. _v1.2.0: https://github.com/feincms/feincms-elephantblog/compare/v1.1.0...v1.2.0
-.. _Next version: https://github.com/feincms/feincms-elephantblog/compare/v1.2.0...master
+.. _v1.5.0: https://github.com/feincms/feincms-oembed/compare/v1.4.0...v1.5.0
+.. _Next version: https://github.com/feincms/feincms-oembed/compare/v1.5.0...master

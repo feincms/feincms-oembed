@@ -1,21 +1,13 @@
 import hashlib
-
-try:
-    from importlib import import_module
-except ImportError:  # PY2.6
-    from django.utils.importlib import import_module
-
 import json
-
-try:
-    from urllib.request import URLError, urlopen
-except ImportError:  # PY3
-    from urllib2 import URLError, urlopen
+import six
+from importlib import import_module
+from six.moves.urllib.request import urlopen
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import six, timezone
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -101,7 +93,7 @@ class CachedLookup(models.Model):
     def clean(self, *args, **kwargs):
         try:
             request = urlopen(self.url)
-        except URLError as e:
+        except Exception as e:
             raise ValidationError(u"This URL cannot be requested: %s" % self.url, e)
 
         raw = request.read()
