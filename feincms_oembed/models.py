@@ -44,7 +44,7 @@ class CachedLookupManager(models.Manager):
         lookup, created = self.get_or_create(
             hash=hashlib.sha1(url.encode("utf-8")).hexdigest(),
             max_age_seconds=max_age,
-            defaults={"url": url,},
+            defaults={"url": url},
         )
 
         if created:

@@ -98,7 +98,7 @@ class FeedContent(models.Model):
         return feedparser.parse(CachedLookup.objects.request(self.url, 30 * 60))
 
     def render(self, **kwargs):
-        return render_to_string("content/external/feed.html", {"feed": self.feed,})
+        return "content/external/feed.html", {"feed": self.feed}
 
 
 class OembedMixin(models.Model):

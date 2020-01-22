@@ -18,7 +18,7 @@ setup(
     url="https://github.com/feincms/feincms-oembed/",
     license="BSD License",
     platforms=["OS Independent"],
-    packages=find_packages(exclude=[],),
+    packages=find_packages(exclude=["tests"]),
     package_data={
         "": ["*.html", "*.txt"],
         "feincms_oembed": [
@@ -31,7 +31,7 @@ setup(
             "templates/*/*/*/*.*",
         ],
     },
-    install_requires=["Django>=1.4.2",],
+    install_requires=["FeinCMS>=1.15"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
