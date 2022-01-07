@@ -1,6 +1,3 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
 import os
 
 
@@ -31,6 +28,7 @@ DATABASES = {
         "PORT": "",
     }
 }
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 MIDDLEWARE = (
     "django.middleware.common.CommonMiddleware",

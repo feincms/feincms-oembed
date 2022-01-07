@@ -40,10 +40,13 @@ class OembedContent(models.Model):
         cls.add_to_class(
             "type",
             models.CharField(
-                _("type"), max_length=20, choices=choices, default=choices[0][0],
+                _("type"),
+                max_length=20,
+                choices=choices,
+                default=choices[0][0],
             ),
         )
-        cls._type_config = dict((row[0], row[2]) for row in TYPE_CHOICES)
+        cls._type_config = {row[0]: row[2] for row in TYPE_CHOICES}
         cls._params = PARAMS
 
     def get_html_from_json(self, fail_silently=False):
@@ -54,7 +57,7 @@ class OembedContent(models.Model):
             embed = CachedLookup.objects.oembed(self.url, **params)
         except TypeError:
             if fail_silently:
-                return u""
+                return ""
             raise ValidationError(_("I don't know how to embed %s.") % self.url)
 
         return render_to_string(
@@ -146,7 +149,7 @@ class OembedMixin(models.Model):
             embed = CachedLookup.objects.oembed(self.url, **params)
         except TypeError:
             if fail_silently:
-                return u""
+                return ""
             raise ValidationError(_("I don't know how to embed %s.") % self.url)
 
         self.oembed = embed

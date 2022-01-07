@@ -1,8 +1,7 @@
 import hashlib
 import json
-import six
 from importlib import import_module
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -49,7 +48,10 @@ class CachedLookupManager(models.Manager):
         return self.get_by_url(url, max_age).response
 
     def oembed(self, url, max_age=DEFAULT_MAX_AGE, **kwargs):
-        lookup = self.get_by_url(self.oembed_provider(url, kwargs), max_age=max_age,)
+        lookup = self.get_by_url(
+            self.oembed_provider(url, kwargs),
+            max_age=max_age,
+        )
 
         response = json.loads(lookup.response)
         try:
@@ -94,7 +96,7 @@ class CachedLookup(models.Model):
         try:
             request = urlopen(self.url)
         except Exception as e:
-            raise ValidationError(u"This URL cannot be requested: %s" % self.url, e)
+            raise ValidationError("This URL cannot be requested: %s" % self.url, e)
 
         raw = request.read()
 
@@ -112,7 +114,7 @@ class CachedLookup(models.Model):
 def _get_object(path, fail_silently=False):
     # Return early if path isn't a string (might already be an callable or
     # a class or whatever)
-    if not isinstance(path, six.string_types):  # XXX bytes?
+    if not isinstance(path, str):  # XXX bytes?
         return path
 
     try:

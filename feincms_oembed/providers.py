@@ -1,5 +1,5 @@
-from django.utils.http import urlencode
 from django.conf import settings
+from django.utils.http import urlencode
 
 
 def embedly_oembed_provider(url, kwargs):

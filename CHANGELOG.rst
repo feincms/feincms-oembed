@@ -6,6 +6,8 @@ Change log
 `Next version`_
 ~~~~~~~~~~~~~~~
 
+- Added pre-commit.
+
 
 `v1.5.0`_ (2020-01-22)
 ~~~~~~~~~~~~~~~~~~~~~~

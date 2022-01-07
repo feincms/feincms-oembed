@@ -6,7 +6,7 @@
             <span class="date">
                 {% with entry.updated_parsed as t %}
                     {{ t.tm_mday }}.{{ t.tm_mon }}.{{ t.tm_year }} {{ t.tm_hour|stringformat:'02d' }}:{{ t.tm_min|stringformat:'2d' }}
-                {% endwith %} 
+                {% endwith %}
             </span>
         </li>
     {% endfor %}
