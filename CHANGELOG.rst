@@ -7,6 +7,9 @@ Change log
 ~~~~~~~~~~~~~~~
 
 - Added pre-commit.
+- Switched to a declarative setup.
+- Added GitHub actions.
+- Renamed the main branch.
 
 
 `v1.5.0`_ (2020-01-22)
@@ -22,4 +25,4 @@ Change log
 
 
 .. _v1.5.0: https://github.com/feincms/feincms-oembed/compare/v1.4.0...v1.5.0
-.. _Next version: https://github.com/feincms/feincms-oembed/compare/v1.5.0...master
+.. _Next version: https://github.com/feincms/feincms-oembed/compare/v1.5.0...main
