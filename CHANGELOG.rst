@@ -10,6 +10,8 @@ Change log
 - Switched to a declarative setup.
 - Added GitHub actions.
 - Renamed the main branch.
+- Changed ``OembedContent.render`` to return a tuple. Raised the minimum
+  FeinCMS version to 22.0.
 
 
 `v1.5.0`_ (2020-01-22)
