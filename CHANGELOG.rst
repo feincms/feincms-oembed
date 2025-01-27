@@ -3,8 +3,8 @@
 Change log
 ==========
 
-`Next version`_
-~~~~~~~~~~~~~~~
+Next version
+~~~~~~~~~~~~
 
 - Added pre-commit.
 - Switched to a declarative setup.
@@ -12,10 +12,13 @@ Change log
 - Renamed the main branch.
 - Changed ``OembedContent.render`` to return a tuple. Raised the minimum
   FeinCMS version to 22.0.
+- Dropped Python 3.8, Django 3.2.
+- Added Django 4.2, 5.2 and Python 3.12, 3.13.
+- Removed the FeinCMS dependency in the package, only the tests depend on it.
 
 
-`v1.5.0`_ (2020-01-22)
-~~~~~~~~~~~~~~~~~~~~~~
+v1.5.0 (2020-01-22)
+~~~~~~~~~~~~~~~~~~~
 
 - Reformatted the code using black.
 - Changed ``FeedContent.render`` to return ``(template, context)``
@@ -23,8 +26,3 @@ Change log
   FeinCMS version to v1.15.
 - Updated the code to work with Django 2 and 3.
 - Added a minimal testsuite after 10 years.
-
-
-
-.. _v1.5.0: https://github.com/feincms/feincms-oembed/compare/v1.4.0...v1.5.0
-.. _Next version: https://github.com/feincms/feincms-oembed/compare/v1.5.0...main
