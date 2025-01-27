@@ -12,7 +12,7 @@ Next version
 - Renamed the main branch.
 - Changed ``OembedContent.render`` to return a tuple. Raised the minimum
   FeinCMS version to 22.0.
-- Dropped Python 3.8, Django 3.2.
+- Dropped Python 3.8, 3.9, Django 3.2.
 - Added Django 4.2, 5.2 and Python 3.12, 3.13.
 - Removed the FeinCMS dependency in the package, only the tests depend on it.
 
