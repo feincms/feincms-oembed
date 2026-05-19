@@ -9,7 +9,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-
 DEFAULT_MAX_AGE = 7 * 24 * 60 * 60  # Cache lookups for a week
 
 

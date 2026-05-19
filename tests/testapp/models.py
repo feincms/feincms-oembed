@@ -2,7 +2,6 @@ from feincms.module.page.models import Page
 
 from feincms_oembed.contents import OembedContent
 
-
 Page.register_templates(
     {
         "key": "base",

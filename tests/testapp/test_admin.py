@@ -4,7 +4,6 @@ from feincms.module.page.models import Page
 
 from feincms_oembed.models import CachedLookup
 
-
 ASTLEY = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 
