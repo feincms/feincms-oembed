@@ -79,7 +79,7 @@ class FeedContent(models.Model):
     url = models.URLField(
         _("Feed URL"),
         help_text=_(
-            "Insert any RSS URL," " e.g. https://www.djangoproject.com/rss/weblog/"
+            "Insert any RSS URL, e.g. https://www.djangoproject.com/rss/weblog/"
         ),
     )
 
