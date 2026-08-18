@@ -96,7 +96,7 @@ class CachedLookup(models.Model):
         try:
             request = urlopen(self.url)
         except Exception as e:
-            raise ValidationError("This URL cannot be requested: %s" % self.url, e)
+            raise ValidationError(f"This URL cannot be requested: {self.url}", e)
 
         raw = request.read()
 

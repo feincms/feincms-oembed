@@ -9,7 +9,7 @@ def embedly_oembed_provider(url, kwargs):
     """
     kwargs["url"] = url
     kwargs["key"] = settings.EMBEDLY_KEY
-    return "https://api.embed.ly/1/oembed?%s" % urlencode(kwargs)
+    return f"https://api.embed.ly/1/oembed?{urlencode(kwargs)}"
 
 
 def noembed_oembed_provider(url, kwargs):
@@ -17,4 +17,4 @@ def noembed_oembed_provider(url, kwargs):
     Provider for the oEmbed service at http://noembed.com/
     """
     kwargs["url"] = url
-    return "http://noembed.com/embed?%s" % urlencode(kwargs)
+    return f"http://noembed.com/embed?{urlencode(kwargs)}"

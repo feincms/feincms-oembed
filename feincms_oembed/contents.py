@@ -34,7 +34,7 @@ class OembedContent(models.Model):
         verbose_name_plural = _("external contents")
 
     @classmethod
-    def initialize_type(cls, TYPE_CHOICES, PARAMS={}):
+    def initialize_type(cls, TYPE_CHOICES, PARAMS=None):
         choices = [row[0:2] for row in TYPE_CHOICES]
         cls.add_to_class(
             "type",
@@ -46,7 +46,7 @@ class OembedContent(models.Model):
             ),
         )
         cls._type_config = {row[0]: row[2] for row in TYPE_CHOICES}
-        cls._params = PARAMS
+        cls._params = PARAMS or {}
 
     def get_html_from_json(self, fail_silently=False):
         params = self._type_config.get(self.type, {})
@@ -61,8 +61,8 @@ class OembedContent(models.Model):
 
         return (
             (
-                "content/external/%s.html" % embed.get("type"),
-                "content/external/%s.html" % self.type,
+                f"content/external/{embed.get('type')}.html",
+                f"content/external/{self.type}.html",
                 "content/external/default.html",
             ),
             {"response": embed, "content": self},
@@ -133,8 +133,8 @@ class OembedMixin(models.Model):
         abstract = True
 
     @classmethod
-    def initialize_type(cls, OEMBED_PARAMS={}):
-        cls._params = OEMBED_PARAMS
+    def initialize_type(cls, OEMBED_PARAMS=None):
+        cls._params = OEMBED_PARAMS or {}
 
     def get_html_from_json(self, fail_silently=False):
         if not self.url:
