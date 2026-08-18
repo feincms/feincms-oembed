@@ -1,0 +1,3 @@
+lint.extend-ignore = [ "BLE001", "RUF012" ]
+lint.per-file-ignores."*/migrat*/*" = [ "N999" ]
+lint.isort.lines-after-imports = 2
