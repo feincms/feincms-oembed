@@ -31,3 +31,22 @@ jobs:
         run: |
           ENV_PREFIX=$(tr -C -d "0-9" <<< "${{ matrix.python-version }}")
           TOXENV=$(tox --listenvs | grep "^py$ENV_PREFIX" | tr '\n' ',') python -m tox
+
+  live:
+    name: Live provider
+    runs-on: ubuntu-latest
+    # The provider is flaky; report it without blocking the merge.
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install -e '.[tests]' 'Django>=5.2,<6.0'
+      - name: Query the oEmbed provider
+        run: python tests/manage.py test -v2 --tag=live testapp
