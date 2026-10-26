@@ -41,7 +41,7 @@ without blocking a merge. Run them by hand with:
   which is the one failure the package cannot work around.
 - noembed.com — the provider the test settings use — is unreliable. It intermittently
   answers `{"error": "Can't use string (\"servers\") as a HASH ref ..."}` instead of
-  oEmbed data. This is *not* deterministic per URL: in run 34889438323 the py312 job
+  oEmbed data. This is _not_ deterministic per URL: in run 34889438323 the py312 job
   got a good response for the Rick Astley URL while py313 got the error for the same
   URL minutes later. Swapping in a video that "works" today only hides the problem —
   mock instead.
